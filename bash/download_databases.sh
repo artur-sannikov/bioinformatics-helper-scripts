@@ -48,8 +48,8 @@ check_md5() {
 URL="https://ftp.ensembl.org/pub/release-113/fasta/mus_musculus/dna/Mus_musculus.GRCm39.dna.toplevel.fa.gz"
 download_file "$URL" "Mus musculus genome"
 
-# Download MetaPhAn database
-URL="http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/mpa_vOct22_CHOCOPhlAnSGB_202403.tar"
+# Download MetaPhlAn database
+URL="http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/mpa_vJun23_CHOCOPhlAnSGB_202403.tar"
 download_file "$URL" "MetaPhlAn database"
 
 # Extract filename from URL
@@ -61,5 +61,15 @@ echo $METAPHLAN_DB_DIR
 mkdir -p "$METAPHLAN_DB_DIR"
 tar xf "$OUTPUT_DIR/$FILENAME" -C "$METAPHLAN_DB_DIR"
 
+# Download MetaPhlAn bowtie2 indices
+URL="http://cmprod1.cibio.unitn.it/biobakery4/metaphlan_databases/bowtie2_indexes/mpa_vJun23_CHOCOPhlAnSGB_202403_bt2.tar"
+download_file "$URL" "MetaPhlAn bowtie2 indices"
+
+# Extract filename from ULR
+FILENAME=${URL##*/}
+
+# Untar MetaPlAn bowtie2 indices
+tar xf "$OUTPUT_DIR/$FILENAME" -C "$METAPHLAN_DB_DIR"
+
 # Check MetaPhlAn md5 checksum
-check_md5 "$OUTPUT_DIR/$FILENAME" "90277ac04de6c72d6542f75bdb1b5104"
+check_md5 "$OUTPUT_DIR/$FILENAME" "d985de75a217cd319e721863f68e7d33"
