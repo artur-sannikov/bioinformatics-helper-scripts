@@ -11,14 +11,15 @@ OUTPUT_DIR="${2}"
 mkdir -p "${OUTPUT_DIR}"
 
 for sample in $(find "${INPUT_DIR}" -type f -regex '.*_L[0-9]+_R[12]_001.fastq.gz' | sed -E 's/(.*)_L[0-9]+_R[12]_001.fastq.gz/\1/' | sort -u); do
+    sample_name="$(basename "$sample")"
     # If conditions to avoid creating duplicates
     if [[ ! -e "${OUTPUT_DIR}"/"${sample}"_R1_001.fastq.gz ]]; then
-        cat "${sample}"_L*_R1_001.fastq.gz >"${OUTPUT_DIR}"/"${sample}"_R1_001.fastq.gz
+        cat "${sample}"_L*_R1_001.fastq.gz >"${OUTPUT_DIR}/${sample_name}_R1_001.fastq.gz"
         echo "Merged R1 files for ${sample} into ${OUTPUT_DIR}/${sample#./}_R1_001.fastq.gz"
     fi
 
     if [[ ! -e "${OUTPUT_DIR}"/"${sample}"_R2_001.fastq.gz ]]; then
-        cat "${sample}"_L*_R2_001.fastq.gz >"${OUTPUT_DIR}"/"${sample}"_R2_001.fastq.gz
+        cat "${sample}"_L*_R2_001.fastq.gz >"${OUTPUT_DIR}/${sample_name}_R2_001.fastq.gz"
         echo "Merged R2 files for ${sample} into ${OUTPUT_DIR}/${sample#./}_R2_001.fastq.gz"
     fi
 done
